@@ -1,0 +1,8 @@
+# installing on rhel 5
+
+Grep out LD_ASSUME_KERNEL to comment it out of the install script:
+cat coldfusion-702-linux.bin.backup | sed "s/export LD_ASSUME/#xport LD_ASSUME/" > coldfusion-702-linux.bin
+
+Once it's installed comment out LD_ASSUME_KERNEL from all the binaries:
+
+grep -Rl 'LD_ASSUME_KERNEL' /opt/coldfusion*

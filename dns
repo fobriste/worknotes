@@ -1,0 +1,8 @@
+#change ttl in plesk 7.5
+insert into misc values ('SOA_TTL','300');
+select * from misc;
+select * from dns_zone;
+
+then run
+ 1002  /usr/local/psa/admin/bin/dnsmng update kiteclubcabarete.com
+ 1003  dig 0 -t SOA kiteclubcabarete.com

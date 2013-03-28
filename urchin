@@ -1,0 +1,16 @@
+#log format for utm to work properly
+LogFormat "%h %v %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\"" special
+
+#remove pending lock in urchindb - make it a shell script.sh
+#
+/usr/local/urchin/bin/urchinctl -s stop
+
+cd /usr/local/urchin/util
+./uconf-driver action=set_parameter table=task name="$1" cr_runnow=0
+./uconf-driver action=set_parameter table=task name="$1" ct_runstatus=2
+./uconf-driver action=set_parameter table=task name="$1" ct_completed=0
+./uconf-driver action=set_parameter table=task name="$1" ct_status=1
+./uconf-driver action=set_parameter table=task name="$1" ct_lockid=0
+
+/usr/local/urchin/bin/urchinctl -s start
+

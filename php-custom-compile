@@ -1,0 +1,6 @@
+1 - get the spec file of the custom php extention, such as pfpro
+2 - get the php + php-devel rpm binaries, as well as the deps
+3 - install the php binaries and ignore the dep that you are going to compile for
+4 - rpmbuild -ba <specfile> will build the rpm against the currently installed php
+5 - install the new rpm you just built
+6 - restart apache

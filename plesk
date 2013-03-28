@@ -1,0 +1,203 @@
+
+
+select * from smtp_poplocks;
+
+#view smtp passwords 
+
+select domains.name as domain,mail_name as login ,password from mail,accounts,domains where mail.account_id=accounts.id and domains.id=mail.dom_id order by dom_id;
+
+#or
+
+select concat(mail_name,'@', domains.name) as `e-mail`, password from domains left join mail on domains.id=mail.dom_id left join accounts on mail.account_id = accounts.id where postbox='true' order by domains.name;
+
+#List administrator passwords:
+select domains.name as domain,accounts.password as password from dom_level_usrs,accounts,domains where dom_level_usrs.account_id=accounts.id and domains.id=dom_level_usrs.dom_id order by dom_id;
+
+#Limit connections per user TODO check this syntax
+GRANT USAGE ON *.* TO 'massdigital'@'%' IDENTIFIED BY PASSWORD '4833474b315bf5b3' WITH MAX_USER_CONNECTIONS 20; 
+spikethevote.com.
+
+#Pull mail passwords from plesk 5
+select concat(mail.mail_name,'@',domains.name) as 'e-mail',mail.password from mail,domains where mail.dom_id=domains.id and password <> "NULL" order by domains.name;
+
+#plesk stores the horde password here
+less /etc/psa-horde/horde/conf.php #points you to here
+cat /etc/psa/.webmail.shadow
+   
+# grab  mail auth for plesk 7
+grep -i smtp_auth /var/log/messages | grep "logged in" | awk {' print $11 '} | awk -F / {' print $6"@"$5 '} | sort | uniq -c | sort -n | tail
+
+# mail auth for plesk 8
+awk '/smtp_auth/ && /logged in/ { print $11}' /usr/local/psa/var/log/maillog | awk -F / '{print $6"@"$5}' | sort | uniq -c | sort -n | tail
+
+# mail auth for plesk 9
+awk '/smtp_auth.*logged/ {print $9}' /usr/local/psa/var/log/maillog | sort | uniq -c | sort -n
+
+#searching for exploitable script
+egrep 'contact|mail' /var/www/vhosts/*/statistics/logs/access_log
+
+#change back to short mail names on server
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e"update misc set val='enabled' where param='allow_short_pop3_names';"
+
+#disable reverse lookups
+#in smtp(s)_psa server args prepend
+
+-Rt0 #this disables reverse lookups 
+
+#upgrade php to 5 in psa 7.5 or 7.5.4
+pear upgrade DB
+cp /usr/share/pear/DB /usr/share/psa-horde/pear/DB
+cp /usr/share/pear/DB.php /usr/share/psa-horde/pear/DB.php
+
+#turn off adds in horde
+edit /usr/share/psa-horde/templates/portal/sidebar.inc
+go to line 102 and change it to:
+if (0/* 0 added per ticket 070619-01455 - remove the 0 and this comment leaving the following - window.NewsFeeds*/) {
+
+#change ttl in plesk 7.5
+insert into misc values ('SOA_TTL','300');
+select * from misc;
+select * from dns_zone;
+mysql -Ns -uadmin -p`cat /etc/psa/.psa.shadow` -D psa -e 'select name from domains' | awk '{print "/usr/local/psa/admin/sbin/dnsmng update " $1 }' | sh
+
+#setup skel files:
+#There's a directory called "/var/www/vhosts/.skel/0" that you can drop a
+#vhost.conf file in. Using a macro for the domain name, you can setup
+#something like this:
+#
+<Directory /var/www/vhosts/@domain_name@/httpdocs> 
+ php_admin_flag engine on 
+ php_admin_flag safe_mode off 
+ php_admin_value open_basedir "none" 
+</Directory>
+
+# get database names by domain from plesk
+
+select domains.name as domain, data_bases.name as database_name from data_bases, domains where data_bases.dom_id = domains.id;
+
+# get ftp logins from plesk 8+
+
+SELECT domains.name as domain, sys_users.login, accounts.password FROM hosting, domains, sys_users, accounts WHERE hosting.dom_id = domains.id AND hosting.sys_user_id = sys_users.id AND sys_users.account_id = accounts.id ORDER BY domains.name;
+
+-or
+
+select s.login, a.password from sys_users s, accounts a where s.account_id=a.id;
+
+#get all forwarders for qmail
+
+for x in `find /var/qmail/mailnames -name .qmail -exec grep -l '^&' {} \;`; do echo $x | awk -F '/' '{print $6"@"$5}' |tr -d '\n' ; grep '^&' $x | sed 's/&/\ forwards\ to\ / '; done
+
+#ftp source:
+ftp://download1.swsoft.com/Plesk/Plesk8.3/
+
+#removing plesk up2date sources
+remove the yum sources from /etc/sysconfig/rhn/sources
+then add the following to a new file /root/.autoinstallerrc
+ALLOW_TO_USE_UP2DATE=no
+
+# get mail forwarders in db 
+select concat(mail_name,'@', domains.name) as 'e-mail', redir_addr from mail left join domains on domains.id=mail.dom_id where redirect = 'true' order by domains.name;
+
+# top 10 domains receiving mail locally
+awk '/to local/ {print $14}' /usr/local/psa/var/log/maillog | sed 's/^.*@//' | sort | uniq -c | sort -n | tail
+
+# re-read ip addresses
+/usr/local/psa/admin/bin/ifmng -r
+
+# Messages per hour:
+awk '/bytes.*from </ {hours[substr($3,1,2)]+=1} END { for (x in hours) { print x,hours[x] } }' maillog 
+
+# Domains using reject non-exist
+SELECT domains.name, Parameters.value FROM domains, Parameters WHERE domains.id=Parameters.id AND Parameters.parameter = 'nonexist_mail';
+
+# update/change/etc keys
+http://10.1.184.29/~vinson/plesk-api/keys.php tester/tester
+
+# find duplicate username-password in mail
+select count(concat(mail_name, password)) as c,concat(mail_name, password) as pass from domains left join mail on domains.id=mail.dom_id left join accounts on mail.account_id = accounts.id group by pass order by c;
+
+# get mail aliases by domain
+select a.alias, m.mail_name, d.name as domain from mail_aliases a, mail m, domains d  where m.id=a.mn_id and d.id = m.dom_id and d.name = 'youngleadershipcouncil.org';
+
+# enabling server-status in plesk w/ sitebuilder
+# edit zz011_sitebuilder.conf
+
+    <IfModule mod_rewrite.c>
+        <Directory /usr/local/sitebuilder/htdocs>
+            RewriteEngine on
+            # making server-status work
+            RewriteRule ^$                        index.php  [L]
+            RewriteCond %{REQUEST_URI}            ^/[a-z]+/.*$
+            RewriteCond %{REQUEST_URI}            [^/]$
+            RewriteRule (.*)                      -  [L]
+            RewriteCond %{REQUEST_FILENAME}       !-f
+            RewriteCond %{REQUEST_FILENAME}       !-d
+            RewriteCond %{REQUEST_URI}            !server-status
+            RewriteRule (.*)                      index.php/$1  [QSA,L]
+        </Directory>
+    </IfModule>
+
+# tracking current exploited scripts
+http://kb.parallels.com/en/1711
+
+1) create /var/qmail/bin/sendmail-wrapper script with the content:
+
+#!/bin/sh
+(echo X-Additional-Header: $PWD ;cat) | tee -a /var/tmp/mail.send|/var/qmail/bin/sendmail-qmail "$@"
+
+Note, it should be the two lines including '#!/bin/sh'.
+
+2) then create log file /var/tmp/mail.send and grant it "a+rw" rights, make the wrapper executable, rename old sendmail and link it to the new wrapper:
+
+touch /var/tmp/mail.send
+chmod a+rw /var/tmp/mail.send
+chmod a+x /var/qmail/bin/sendmail-wrapper
+mv /var/qmail/bin/sendmail /var/qmail/bin/sendmail-qmail
+ln -s /var/qmail/bin/sendmail-wrapper /var/qmail/bin/sendmail
+
+3) Wait for an hour or so and revert sendmail back:
+
+rm -f /var/qmail/bin/sendmail
+ln -s /var/qmail/bin/sendmail-qmail /var/qmail/bin/sendmail
+
+
+# Domains using front page extentions
+select domains.name as domain, hosting.fp_enable as fp from domains, hosting where hosting.dom_id=domains.id and hosting.fp_enable='true';
+
+# fail2ban config for courier
+[courier-iptables]
+
+enabled = true
+filter = courierlogin
+action = iptables-multiport[name=CourierLogin, port="pop3,imap", protocal=tcp]
+logpath = /usr/local/psa/var/log/maillog
+maxretry = 20
+bantime = 1800
+
+#web accounts with passwords
+select domains.name as domain, sys_users.login as login, accounts.password as password from domains,sys_users,web_users,accounts where domains.id=web_users.dom_id and web_users.sys_user_id=sys_users.id and sys_users.account_id=accounts.id;
+
+# largest log directories from last statistics run
+select d.name, truncate(du.logs / 1024, 0) as 'log_size_(k)' from domains d, disk_usage du where d.id = du.dom_id order by du.logs desc limit 10;
+
+# domains set to disable or notify on overusage
+select d.name,p.param,p.val from dom_param p, domains d  where p.param like 'Overuse%' and p.val = 'true' and d.id = p.dom_id;
+
+# clients set to disable or notify on overusage
+select cl.pname,p.param,p.val from cl_param p, clients cl  where p.param like 'Overuse%' and p.val = 'true' and cl.id = p.cl_id;
+
+# run microupdates
+/usr/local/psa/admin/sbin/autoinstaller --select-product-id plesk --select-release-current --reinstall-patch --install-component base
+
+# find all domains wit mail enabled (plesk 8-10)
+#  0 = enabled, 16 = disabled
+select domains.name as "Domains" from domains, DomainServices where domains.id = DomainServices.dom_id and DomainServices.type like 'mail' and DomainServices.status <> '0' order by domains.name asc;
+
+# database users by db
+select data_bases.name as "database" ,db_users.login as user ,accounts.password as password from data_bases, accounts, db_users where data_bases.id = db_users.db_id and db_users.account_id = accounts.id order by data_bases.name;
+
+#compare quotas in plesk db with system quotas, output all
+echo -e 'user\t plesk_quota\t sys_quota'; mysql psa -se "select login, quota from sys_users order by quota" | while read user pleskquotablocks ; do quotareturn=$(quota -u $user | tail -1 | awk '{print $3}'); pleskquota=$(( $pleskquotablocks / 1024 )) ; if  [ $quotareturn = 'for' ] ; then sysquota=0 ; else sysquota=$quotareturn; fi ;echo -e "$user\t $pleskquota\t $sysquota" ;done
+
+#compare quotas in plesk with system, output differences
+echo -e 'user\t plesk_quota\t sys_quota'; mysql psa -se "select login, quota from sys_users order by quota" | while read user pleskquotablocks ; do quotareturn=$(quota -u $user | tail -1 | awk '{print $3}'); pleskquota=$(( $pleskquotablocks / 1024 )) ; if  [ $quotareturn = 'for' ] ; then sysquota=0 ; else sysquota=$quotareturn; fi ; if [ $sysquota != $pleskquota ]; then echo -e "$user\t $pleskquota\t $sysquota" ; fi ;done

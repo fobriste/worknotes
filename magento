@@ -1,0 +1,82 @@
+Software requirements:
+64-bit OS
+PHP 5.2.x
+MySQL 5.0.x
+
+Before you begin:
+-Contact the customer and ask them what the domain name will be for the
+eventual production site. You will use this domain name as the SSH user
+for managing the site, the database name, and the MySQL user. For the
+system user, MySQL user, and MySQL database name, drop the TLD off of
+the domain name. For example, "rackspace.com" would be "rackspace".
+
+Preparing the server to run Magento:
+PHP
+-Subscribe web server(s) to the PHP 5.2 RPM channel. Upgrade PHP to the
+latest PHP 5.2.x release. Install the following additional PHP modules:
+        -php-gd
+        -php-mcrypt
+        -php-mhash
+        -php-xml
+        -php-pecl-memcache
+        -php-pecl-apc
+-Ensure that safe_mode is disabled in the php.ini
+-Ensure that APC is enabled in /etc/php.d/apc.ini
+-Increase the APC apc.shm_size from 32 to 100 in /etc/php.d/apc.ini
+-Set the session.save_handler to memcache
+-Set the session.save_path to
+"tcp://localhost:11211?persistent=1&weight;=1&timeout;=1&retry;_interval=15"
+(see notes on multi-server install below)
+
+Memcache
+-Install memcachced, start service and configure to start at boot (see
+notes on multi-server install below)
+
+MySQL
+-Subscribe database server(s) to the MySQL 5.0.x RPM channel. Upgrade
+MySQL to the latest MySQL 5.0.x release
+-Create a database called "magento_<sitename>"
+-Create a database user called "<sitename>" with access to the new database
+
+Apache
+-Ensure that "AllowOverride" is set to "All" for the document root of
+the Magento site (or for the global /var/www/html definition if no
+specific virtual host)
+-Ensure that "FollowSymLinks" is enabled for the document root of the
+Magento site (or for the global /var/www/html definition if no specific
+virtual host)
+
+Network
+-Ensure that both ports 80 and 443 are globally accessible through the
+customer's firewall
+-Ensure that the /etc/hosts file is updated on each of the web servers
+so that there are entries for the eventual production domain pointing at
+the local private IP address
+
+OS
+-Create a user with SSH access for managing the site. Use the value for
+<sitename> from above. Give this user ownership of the domain's document
+root
+
+Additional notes for multiple Web server environments
+Memcache (multi server)
+-Choose one server to run memcache, comment out the "ADDRESS" line in
+/etc/sysconfig/memcache and restart memcache. This will tell memcache to
+listen on all interfaces rather than just localhost
+
+PHP (multi server)
+-Set the session.save_path on each of the servers that are not running
+memcache to point at the server running the memcache daemon
+
+Network
+-Ensure that any SSL certificates are configured on the servers
+directly. Magento will not function properly if the SSL termination is
+offloaded to the load balancer
+
+--
+Jacob Walcik
+jacob.walcik@rackspace.com
+Senior System Engineer, M8
+Rackspace (tm)
+Toll Free: 800-961-4454x5061051
+Direct: 512-539-1051

@@ -1,0 +1,36 @@
+Tomcat SSL Install
+
+Tomcat SSL cert install: (only works on tomcat 5+)
+
+1. Create the .key and .crt files on the server.
+
+Generate the pkcs12 file: (After creating the .key and .crt
+files)
+
+openssl pkcs12 -export -out [$keystore].pkcs12 -in www.crt
+-inkey www.key
+
+for cert with CAcert, place CAcerts in the same file and:
+
+openssl pkcs12 -export -clcerts -in ssl/client/client1.pem
+-inkey
+ssl/client/client1.key -out ssl/client/client1.p12 -name
+"my_client_certificate"
+
+Verify new pkcs12 file:
+keytool -list -v -keystore [$keystore].pkcs12 -keypass
+[$PASSWORD] -storetype pkcs12
+
+Make a backup of the server.xml file before editting.
+
+Install Cert in /srv/apache-tomcat-5.5.25/conf/server.xml
+<Connector port="8443" maxHttpHeaderSize="8192"
+maxThreads="150" minSpareThreads="25"
+maxSpareThreads="75"
+enableLookups="false" disableUploadTimeout="true"
+acceptCount="100" scheme="https" secure="true"
+clientAuth="false" sslProtocol="TLS"
+
+keystoreFile="/srv/apache-tomcat-5.5.25/conf/[$keystore].pkcs12"
+keystoreType="PKCS12"
+keystorePass="[$PASSWORD]"/> 

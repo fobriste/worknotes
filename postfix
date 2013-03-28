@@ -1,0 +1,31 @@
+*** Adding a user in postfix
+
+Add the user to the server first:
+1. useradd -s /bin/false <username>
+2. passwd <username>
+
+Add the user's email alias to the server:
+
+1. add the user in /etc/postfix/virtual 
+2. run postmap /etc/postfix/virtual
+3. if the domain is new add the domain to accept mail for in /etc/postfix/mydomains
+4. run postmap /etc/postfix/mydomains
+
+# enabling starttls - just add the following
+smtpd_tls_cert_file = /etc/pki/tls/certs/2008-www.myjobsearcher.com.crt
+smtpd_tls_key_file = /etc/pki/tls/private/2008-www.myjobsearcher.com.key
+smtpd_tls_CAfile = /etc/pki/tls/certs/gd_bundle.crt
+smtpd_tls_security_level = may
+tls_random_source = dev:/dev/urandom
+tls_smtp_use_tls = yes
+
+# if necessary you can add the following as well
+#smtpd_tls_log_level = 1
+#smtpd_tls_received_header = yes
+#smtpd_tls_auth_only = no
+#smtp_use_tls = yes
+#smtpd_use_tls = yes
+#smtp_tls_note_starttls_offer = yes
+
+
+

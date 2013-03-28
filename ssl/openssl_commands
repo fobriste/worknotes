@@ -1,0 +1,63 @@
+Definitions and abbreviations:
+C  - Country - The two letter code of the Country which the orginization or company resides - e.g. US
+ST - State or Province - The full name of the state or province which the company resides - e.g. Texas
+L - Locality - The city or locality where the company resides - e.g. San Antonio
+O - Organization - The legal Company or orginization name. - e.g. Stab and Slab Emporium
+OU - Organizational Unit - The buisness unit, this is not used on Thawte certs - e.g. IT  
+CN - Common Name - This is the text of what domain the certificate was issued for -  e.g. www.domain.com
+
+** Certificate Creation
+
+# To generate an RSA Private Key and CSR for a certificate - Do this on the customer's server:
+openssl req -new -newkey rsa:2048 -nodes -keyout /etc/pki/tls/private/<year>-<commonname>.key -out /etc/pki/tls/misc/<year>-<commonname>.csr
+
+# Create a file containing key and self-signed certificate
+# Great for when you get Invalid cert issues in webmin
+# to use in webmin make the keyout and cert file /etc/webmin/miniserv.pem
+openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
+
+** Certificate Verification
+
+# Test out the key/cert - the modulus of both files must match.
+openssl rsa -noout -modulus -in <name>.key
+openssl x509 -noout -modulus -in <name>.crt
+
+# print out certificate details - You can also leave out the '-in' 
+# statement and paste in the certificate file 
+# everything 
+openssl x509 -text -noout -in <filename>
+
+# who issued the cert?
+openssl x509 -noout -in <filename> -issuer
+
+# to whom was it issued?
+openssl x509 -noout -in <filename> -subject
+
+# for what dates is it valid?
+openssl x509 -noout -in <filename> -dates
+
+# the above, all at once
+openssl x509 -noout -in <filename> -issuer -subject -dates
+
+
+** Certificate conversion 
+# key and cert file to a PEM
+pem is just a key then cert in one file
+cat sslkey.key > file.pem && cat sslcert.crt >> file.pem
+
+# to go from PFX to PEM
+openssl pkcs12 -in mycert.pfx -out mycert.pem -nodes
+
+# export mycert.pem as PKCS#12 file, mycert.pfx
+openssl pkcs12 -export -out mycert.pfx -in mycert.pem -name "My Certificate"
+
+# to remove ssl passphrase on the key
+openssl rsa -in OLD.key -out NEW.key2
+
+# view cert info remotely
+openssl s_client -connect url:port
+
+
+# one liner to grab the ips 
+# put them all in the file ips
+for i in `cat ips` ; do echo " ip $i has certificate: " ; echo quit | openssl s_client -connect $i:443 2>&1 | grep ubject  ; done

@@ -1,0 +1,140 @@
+######
+#
+######
+#
+#Nimbus MOnitoncing:
+#iptables chain thanks to steve raymond
+#
+iptables -N Nimbus
+iptables -t filter -A INPUT -j Nimbus
+iptables -A Nimbus -i eth0 -p tcp --dport 48000:48010 -s 10.0.0.0/8 -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 98.129.223.116 -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 98.129.223.120  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 72.4.123.178  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 72.4.123.84  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 92.52.127.149  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 92.52.127.150  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 92.52.127.245  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s  92.52.127.246  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 92.52.127.248  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 173.203.5.86  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport  48000:48010 -s 173.203.5.98  -j ACCEPT
+iptables -A Nimbus -i eth0 -p tcp --dport 48000:48010 -j DROP
+
+DFW
+
+permit tcp 98.129.223.116 255.255.255.252 any range 48000-48010
+
+permit tcp 98.129.223.120 255.255.255.252 any range 48000-48010
+
+IAD
+
+permit tcp 72.4.123.178 255.255.255.254 any range 48000-48010
+
+permit tcp 72.4.123.84 255.255.255.254 any range 48000-48010
+
+LON
+
+permit tcp host 92.52.127.149 any range 48000-48010
+
+permit tcp host 92.52.127.150 any range 48000-48010
+
+permit tcp host 92.52.127.245 any range 48000-48010
+
+permit tcp 92.52.127.246 255.255.255.254 any range 48000-48010
+
+permit tcp host 92.52.127.248 any range 48000-48010
+
+ORD
+
+permit tcp 173.203.5.86 255.255.255.254 any range 48000-48010
+
+permit tcp 173.203.5.98 255.255.255.254 any range 48000-48010
+# UPDATED 20120210
+#
+#Bastion IPs
+#
+72.3.128.84
+69.20.0.1
+212.100.225.42
+212.100.225.49
+120.136.34.22
+50.57.22.125
+
+# # necessary for rackspace-
+
+10.0.0.0/16
+10.1.96.0/19
+10.4.96.0/19
+10.5.4.0/22
+10.5.96.0/24
+10.5.97.0/24
+120.136.33.0/25
+120.136.34.16/28
+64.39.0.0/23
+64.49.200.192/27
+66.216.111.0/25
+66.216.125.0/27
+67.192.155.96/27
+69.20.80.0/28
+72.32.192.0/24
+74.205.2.0/24
+83.138.146.192/27
+89.234.21.64/28
+92.52.126.0/24
+
+#Where the above ip addresses came from:
+64.39.0.0/23 (64.39.0.0/255.255.254.0)
+10.0.0.0/16 (10.0.0.0/255.255.0.0)
+10.1.96.0/19 (10.1.96.0/255.255.224.0)
+10.4.96.0/19 (10.4.96.0/255.255.224.0)
+10.5.96.0/24 (10.5.96.0/255.255.255.0)
+10.5.97.0/24 (10.5.97.0/255.255.255.0)
+10.5.4.0/22 (10.5.4.0/255.255.252.0)
+
+object-group network rackspace-monitoring
+network-object 66.216.125.0 255.255.255.224
+network-object 66.216.111.0 255.255.255.128
+network-object 83.138.146.192 255.255.255.224
+network-object 72.32.192.0 255.255.255.0
+network-object 74.205.2.0 255.255.255.0
+network-object 92.52.126.0 255.255.254.0
+network-object 120.136.33.0 255.255.255.128
+network-object 120.136.34.16 255.255.255.240
+
+object-group network rackspace-rba
+network-object 67.192.155.96 255.255.255.224
+network-object 64.49.200.192 255.255.255.224
+network-object 89.234.21.64 255.255.255.240
+network-object 69.20.80.0 255.255.255.240
+
+# Backup/Storage/Patching, (San Antonio, TX):
+10.225.225.0/26 (10.225.225.0/255.255.255.192)
+10.1.97.0/24 (10.1.97.0/255.255.255.0)
+10.3.97.10/24 (10.3.97.0/255.255.255.0)
+
+# Backup/Storage/Patching, (Herndon, VA):
+10.235.235.0/26 (10.235.235.0/255.255.255.192)
+10.4.97.10/24 (10.4.97.10/255.255.255.0)
+
+# Backup/Storage/Patching, (London, UK):
+10.230.255.0/24 (10.230.255.0/255.255.255.0)
+10.2.97.0/24 (10.2.97.0/255.255.255.0)
+
+# Backup/Storage/Patching, (Dallas/Fort Worth, US):
+10.250.0.0/23 (10.250.0.0/255.255.254.0)
+10.5.97.0/24 (10.5.97.10/255.255.255.0) 
+
+# postrouting rule to send mail out different ip address
+
+iptables -t nat -I POSTROUTING -m multiport -p tcp -s 72.32.68.170 --ports 25 -j SNAT --to 72.32.76.169:25 
+
+# prerouting rule to allow traffic to come in over different ip
+iptables -t nat -A PREROUTING -p tcp -d [chosen ip] --dport 443 -j DNAT --to [chosen ip]:8443
+
+# rate limit on rhel 4 
+-A INPUT -p tcp -m tcp --dport 22 -m state --state NEW -m recent --set --name DEFAULT --rsource
+-A INPUT -p tcp -m tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 --name DEFAULT --rsource -j DROP
+
+# send all port 25 traffic out primary
+iptables -t nat -A POSTROUTING -o eth0 -p tcp -j SNAT --dport 25 --to-source 192.168.100.56

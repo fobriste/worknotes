@@ -1,0 +1,47 @@
+# find a slow web site's time wait issue
+
+Connect to the web server using telnet. This way you can establish the connection before the request is processed by apache. We'll use http://www.mauivaaircruise.com/index2.php as an example. 
+
+I find it's easier to have two shells into the server and a term on my desktop open.
+
+From your desktop open a telnet session to the server and start the request:
+
+telnet www.mauivaaircruise.com 80
+GET /index2.php HTTP/1.1
+Host: www.mauivaaircruise.com
+
+#Don't hit the second return yet. This establishes the connection but the request is not processed by apache until the second carriage return is sent.
+
+On the server do a netstat to see which pid you are using:
+
+[root@352363-web1 rack]# netstat -ntp | egrep ':80.*64.39.0.68'
+tcp        0      0 192.168.100.242:80          64.39.0.68:12349            ESTABLISHED 27277/httpd 
+
+With this pid start an strace:
+[root@352363-web1 ~]# strace -f -o /home/rack/strace.httpd -p 27277
+
+On the second term tail this file.
+[root@352363-web1 rack]# tail -f /home/rack/strace.httpd
+
+Then on your desktop, hit return again to have apache processes this request
+
+Hopefully, you'll see something wating for a connection to complete or return data. In this case we got:
+
+27281 munmap(0x2affe3469000, 4096)      = 0
+27281 rt_sigaction(SIGPIPE, {0x1, [PIPE], SA_RESTORER|SA_RESTART, 0x2affd00732d0}, {0x1, [], SA_RESTORER, 0x2affcfc31b10}, 8) = 0
+27281 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 29
+27281 fcntl(29, F_SETFL, O_RDONLY)      = 0
+27281 fcntl(29, F_GETFL)                = 0x2 (flags O_RDWR)
+27281 fcntl(29, F_GETFL)                = 0x2 (flags O_RDWR)
+27281 fcntl(29, F_SETFL, O_RDWR|O_NONBLOCK) = 0
+27281 connect(29, {sa_family=AF_INET, sin_port=htons(3306), sin_addr=inet_addr("50.56.11.240")}, 16) = -1 EINPROGRESS (Operation now in progress)
+27281 fcntl(29, F_SETFL, O_RDWR)        = 0
+27281 poll([{fd=29, events=POLLIN|POLLPRI}], 1, 60000
+
+Reading this entire output is difficult, but the key line is the one starting with 'connect'. This is opening a connection on port 3306 to the ip address of 50.56.11.240. In this case this is the server's ip address and it's behind a firewall, so they need to change their connection string on the web site code to go to 'localhost'.
+
+#Update
+#
+strace -t -e 'trace=write,open,read,close' -p `netstat -ntp | awk '/50.56.230.140.*ESTA/ {print $7}' | sed 's/\/.*$//'`
+
+This is my current strace. It only gets the open,read, and close traces and we don't have to suffer through the lstats and waits.

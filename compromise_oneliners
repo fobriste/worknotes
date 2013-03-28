@@ -1,0 +1,11 @@
+cd /proc/; ls -l `pgrep -U apache` | grep exe | grep -v '/usr/sbin/httpd'
+
+/etc/init.d/httpd stop; ps aux | grep apache | awk '{ print $2 }'; kill -9 `ps aux | grep apache | awk '{ print $2 }'`; /etc/init.d/httpd start
+
+find `pwd` -name "*.php" -type f -exec egrep -l '(eval.gzinflate|r57shell|c99shell|RST/GHC|By CANAL|Sh3ll|raCrew)' {} \;
+
+find `pwd`/*/http*docs -name "*.php" -type f -exec egrep -l '(eval.gzinflate|r57shell|c99shell|RST/GHC|By CANAL|Sh3ll|raCrew)' {} \;
+
+find `pwd` -name "*.php" -type f -user apache -mtime -10
+
+find `pwd` -name '*.php' -exec grep -liP 'web ?shell|shellbot|c999?sh|injektor|N3tsh|Fx29sh|r57|SyRiAn Sh3ll|filesman|LINUX Shell|Team Crimes Linux|Zone-H|Err0R|hackteach|Cpanel Cracker|milw0rm|R0lGOD|PHP DOS|Attack|phptools|eval.*base64_decode' {} \; 

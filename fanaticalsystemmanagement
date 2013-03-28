@@ -1,0 +1,65 @@
+Each week the following should be performed for a Linux FSM server:
+
+1)  Look at the last week's tickets and base your weekly report on last week's FSM report
+2)  Use "FSM: Weekly Server# 31797 Check" in subject line of this week's ticket
+3)  Notate disk usage to customer and warn them if they are low on disk space or have experienced high disk usage in the last week.
+4)  Check http://www.redhat.com for lastest errata for the RH version
+    - Only patch what is on the server
+    - Do not update things like OpenSSL, kernels, BIND, Apache, MySQL, or other possible operation interrupting patches without consulting the customer.
+    - Tell the customer what software you updated.
+5)  Do all of your work in /home/rack/FSM<tab-complete>
+    - There will be directory structures as either FSMupdates or just FSM
+    - Run rpm -Va |grep "^..5" > rpmverify-YYYYMMDD & in the /home/rack/FSM<tab-complete/.rpm<tab-complete> 
+      * Try to keep only 4 weeks worth of rpm-verify data
+    - diff last week's verify with this week's to make sure nothing has changed from last time
+6)  Check if Backup Exec client for Linux is running (agent.be)
+    -> Troubleshoot any backup issues that you find
+7)  Grep 'kernel' from /var/log/messages
+8)  httpd -t
+    - Report even warnings to the customer
+9)  Check Apache logs and report any problems
+    - Even if customer is running 3rd party products, let them know of the errors you find
+10)  Make sure time is properly set.  If not: service ntpd restart
+    - Then: hwclock --systohc
+11) Do an 'ipconfig' and make sure the server is not encountering collisions
+12) Look over ps -auxwg to ensure nothig out of the ordinary is running.
+13) Do a netstat -natp |grep -i listen  to make sure there are no weird ports listening
+14) Look at the 'last' log to see if anyone weird logged in
+15) Report all information you find running fine or otherwise in the following format:
+
+-------------------------------------------------------------
+|  Fanatical System Management™ Weekly Server# XXXXX Check  |
+-------------------------------------------------------------
+Hello,
+
+Your Fanatical System Management™ Services have been performed this week.
+
+BACKUP STATUS:
+
+- Veritas backup client is running without error.
+
+SERVER DIAGNOSTIC:
+
+- There are 4.7 GB of space left on /
+
+- There are no errors to report at this time.
+
+SECURITY UPDATES:
+
+- There are no updates available at this time.
+
+ADDITIONAL NOTES:
+
+- Everything looks good!
+
+If you have any further questions or problems, please do not hesitate to contact us any time of the day or night.
+
+Thank you for choosing Rackspace!
+Sincerely,
+
+John Doe
+Team X Fanatical Systems Engineer
+Rackspace Managed Hosting(TM) - Technical Support
+Toll Free: 1-866-FANATIC or (800)961-4454
+International: +1-210-892-4030
+

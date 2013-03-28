@@ -1,0 +1,6 @@
+mailq # prints a status of mailq for sendmail
+
+mailstats # prints current mail statistics 
+
+praliases # prints the current aliases in use
+

@@ -1,0 +1,42 @@
+First create the certificate request (csr) from the information in the ticket from the AM
+******for tomcat see ssl-tomcat******
+
+# make new key (pass phrase required)
+/usr/bin/openssl genrsa 1024 > /etc/httpd/conf/ssl.key/<year>-<domain>.key
+
+# make new cert signing request
+# for thawte cert leave the email blank, for verisign fill it out
+# !!!!! The email must match the whois record or be on the approved list
+# !!!!! of aliases as listed below
+/usr/bin/openssl req -new -key /etc/httpd/conf/ssl.key/<year>-<domain>.key -out /etc/httpd/conf/ssl.csr/<year>-<domain>.csr
+
+Copy the csr and key into the key on the account on the SSL Certificate Details page. Go to the account in core, expand SSL certs at the bottom of the left hand pane, click on the domain name.
+The email address on the cert request can also be an approved alias as determined by clicking EDIT on the "SSL Certificate Contact Information" field. Click the alias radio button on the email field and any of the entries in the field are acceptable. The current entries are:
+admin
+administrator
+hostmaster
+info
+SSLadmin
+SSLadministrator
+SSLwebmaster
+sysadmin
+webmaster
+
+#Plesk installs as follows
+Once that is verified and filled out click on "Submit to vendor" to the right of "Status" on the upper right hand side of the SSL Certificate Details page.
+
+Once we receive the certificate from the vendor you can log into plesk, go to the Domains page, select the domain, click on Certificates under Services, and select "Add New Certificate".
+
+Once the certificate is installed then you will need to bind the ip address to the domain. You do that by selecting Clients from the General selection, then click on the client of that domain (company name is listed to the right of the client), then click on IP Pool under "Tools".  Then click the ip address (or add one if there is another ip address for that cert, each SSL'd site must have it's own ip address). Select the certificate that you added from the drop down list (if it is the first you will see the plesk certificate labeled as "default address") and click ok.
+
+The certificate should now be installed. Verify this by going to https://<domain name> and see that the side loads as https and verify the certificate is correct. This can typically be done by double clicking the lock icon in your browser.
+
+Once this is verified set the certificate as installed by clicking the button to the right of "Status" on the SSL Certificate Details in Core. Then update the ticket and you are done.
+
+#non plesk installs go in a virtual host
+SSLEngine on
+SSLCertificateFile /etc/httpd/conf/ssl.crt/<domain>.crt
+SSLCertificateKeyFile /etc/httpd/conf/ssl.key/<domain>.key
+# optional 
+SSLCACertificateFile /etc/httpd/conf/ssl.crt/verisign.crt
+

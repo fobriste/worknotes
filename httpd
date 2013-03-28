@@ -1,0 +1,83 @@
+# Stuff for apache language
+AddLanguage
+AddDefaultCharset
+LanguagePriority
+
+# grep for traffic the jwalcik way
+for x in `seq -w 0 13` ; do echo "$x - " | tr -d "\n" ; grep -c "04/Mar/2009:$x" access_log ; done
+
+# Disable TRACE TRACK
+# create an /etc/httpd/conf.d/00-pci.conf and place this in there
+      RewriteEngine On
+      RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+      RewriteRule .* - [F]
+
+#Disable SSLv2 in /conf.d/ssl.conf
+    SSLProtocol +All -SSLv2
+    SSLCipherSuite ALL:-ADH:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP	
+
+# building on 64bit
+http://www.weblogs.uhi.ac.uk/sm00ay/?p=196
+
+The first thing you must do is apply the patch to srclib/apr-util/build/apu-conf.m4:
+http://issues.apache.org/bugzilla/show_bug.cgi?id=28205
+
+This will get rid of the error:
+
+/usr/lib/libexpat.so: could not read symbols: File in wrong format
+
+The patch updates apu-conf.m4 to build an updated configure that knows what to do with a 64 bit directive. So, once you’ve applied the patch, you should delete the file:
+
+srclib/apr-util/configure
+
+and go back to the root directory of the source distro and delete the configure file there too.
+
+Then, rebuild the configure scripts:
+
+./buildconf
+
+You now have a 64 bit enabled apr-util. To take advantage of it, you need to add this line to the root configure options:
+
+–enable-lib64
+
+Here’s the root configure in full:
+
+./configure –enable-layout=UHI         \
+            –enable-lib64              \
+            –libdir=<apachedir>/lib64         \
+            –enable-rewrite            \
+            –enable-so                 \
+            –enable-ssl                \
+            –enable-userdir            \
+            –without-sendfile
+
+I usually copy this lot into a file called configure_apache. So, all you need do now is:
+
+./configure_apache
+make
+make install
+
+## enable segfaults
+
+
+echo "ulimit -c unlimited >/dev/null 2>&1″ >> /etc/profile
+echo "DAEMON_COREFILE_LIMIT='unlimited'" >> /etc/sysconfig/init
+echo 1 > /proc/sys/fs/suid_dumpable
+echo "core" > /proc/sys/kernel/core_pattern
+echo "CoreDumpDirectory /var/apache-core" > \
+/etc/httpd/conf.d/core_dumps.conf
+mkdir /var/apache-core
+chown apache: /var/apache-core
+source /etc/profile
+/etc/init.d/httpd restart
+
+## To undo:
+
+remove "ulimit -c unlimited >/dev/null 2>&1" from /etc/profile
+remove "DAEMON_COREFILE_LIMIT='unlimited'" from /etc/sysconfig/init
+echo 0 > /proc/sys/fs/suid_dumpable
+echo "/root/core" > /proc/sys/kernel/core_pattern
+rm /etc/httpd/conf.d/core_dumps.conf
+rm -rf /var/apache-core
+source /etc/profile
+/etc/init.d/httpd restart

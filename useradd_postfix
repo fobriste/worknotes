@@ -1,0 +1,7 @@
+add user to /etc/passwd (useradd)
+change shell to /bin/false
+add to /etc/postfix/virtual
+run postmap /etc/postfix/virtual
+run postfix reload
+mail test mail
+check for mail at /var/log/mail/<username>

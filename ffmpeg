@@ -1,0 +1,60 @@
+ 1006  Jan/22 - 16:42:00 mkdir 080122-00070
+			 cd 080122-00070
+ 1007  Jan/22 - 16:42:09 cat /etc/redhat-release
+ 1008  Jan/22 - 16:44:10 wget http://dag.wieers.com/rpm/packages/ffmpeg/ffmpeg-0.4.9-0.9.20070530.el4.rf.i386.rpm
+ 1009  Jan/22 - 16:44:32 wget http://dag.wieers.com/rpm/packages/ffmpeg/ffmpeg-devel-0.4.9-0.9.20070530.el4.rf.i386.rpm
+ 1010  Jan/22 - 16:44:47 wget http://dag.wieers.com/rpm/packages/ffmpeg/ffmpeg-libpostproc-0.4.9-0.9.20070530.el4.rf.i386.rpm
+ 1017  Jan/22 - 16:45:39 up2date libogg libvorbis
+ 1018  Jan/22 - 16:45:47 up2date libogg-devel libvorbis-devel
+ 1020  Jan/22 - 16:47:09 up2date SDL-devel
+ 1026  Jan/22 - 16:50:55 wget http://dag.wieers.com/rpm/packages/faad2/faad2-devel-2.5-2.el4.rf.i386.rpm
+ 1027  Jan/22 - 16:51:03 rpm -Uvh faad2-devel-2.5-2.el4.rf.i386.rpm
+ 1028  Jan/22 - 16:51:25 wget http://dag.wieers.com/rpm/packages/faad2/faad2-2.5-2.el4.rf.i386.rpm
+ 1033  Jan/22 - 16:55:52 wget http://dag.wieers.com/rpm/packages/faac/faac-devel-1.25-2.el4.rf.i386.rpm
+ 1034  Jan/22 - 16:56:07 wget http://dag.wieers.com/rpm/packages/faac/faac-1.25-2.el4.rf.i386.rpm
+ 1041  Jan/22 - 16:58:33 wget http://dag.wieers.com/rpm/packages/libmp4v2/libmp4v2-devel-1.5.0.1-3.el4.rf.i386.rpm
+ 1043  Jan/22 - 16:58:57 wget http://dag.wieers.com/rpm/packages/libmp4v2/libmp4v2-1.5.0.1-3.el4.rf.i386.rpm
+ 1045  Jan/22 - 16:59:39 wget http://dag.wieers.com/rpm/packages/lame/lame-3.97-1.el4.rf.i386.rpm
+ 1047  Jan/22 - 16:59:55 wget http://dag.wieers.com/rpm/packages/lame/lame-devel-3.97-1.el4.rf.i386.rpm
+ 1049  Jan/22 - 17:00:26 wget http://dag.wieers.com/rpm/packages/a52dec/a52dec-0.7.4-8.el4.rf.i386.rpm
+ 1051  Jan/22 - 17:00:54 wget http://dag.wieers.com/rpm/packages/imlib2/imlib2-1.4.0-1.el4.rf.i386.rpm
+ 1052  Jan/22 - 17:01:05 wget http://dag.wieers.com/rpm/packages/imlib2/imlib2-devel-1.4.0-1.el4.rf.i386.rpm
+ 1054  Jan/22 - 17:01:19 up2date libtiff libungif
+ 1056  Jan/22 - 17:02:09 wwget http://dag.wieers.com/rpm/packages/x264/x264-0.0.0-0.4.20070529.el4.rf.i386.rpm
+ 1057  Jan/22 - 17:02:15 wget http://dag.wieers.com/rpm/packages/x264/x264-0.0.0-0.4.20070529.el4.rf.i386.rpm
+ 1059  Jan/22 - 17:02:41 wget http://dag.wieers.com/rpm/packages/x264/x264-devel-0.0.0-0.4.20070529.el4.rf.i386.rpm
+ 1060  Jan/22 - 17:03:03 wget http://dag.wieers.com/rpm/packages/gsm/gsm-1.0.10-6.el4.rf.i386.rpm
+ 1062  Jan/22 - 17:03:18 wget http://dag.wieers.com/rpm/packages/gsm/gsm-devel-1.0.10-6.el4.rf.i386.rpm
+ 1064  Jan/22 - 17:04:12 wget http://dag.wieers.com/rpm/packages/a52dec/a52dec-devel-0.7.4-8.el4.rf.i386.rpm
+ 1065  Jan/22 - 17:04:22 wget http://dag.wieers.com/rpm/packages/a52dec/a52dec-0.7.4-8.el4.rf.i386.rpm
+ 1071  Jan/22 - 17:06:02 wget http://dag.wieers.com/rpm/packages/libid3tag/libid3tag-0.15.1b-3.2.el4.rf.i386.rpm
+ 1074  Jan/22 - 17:06:40 wget http://dag.wieers.com/rpm/packages/xvidcore/xvidcore-1.1.3-1.el4.rf.i386.rpm
+ 1075  Jan/22 - 17:06:50 wget http://dag.wieers.com/rpm/packages/xvidcore/xvidcore-devel-1.1.3-1.el4.rf.i386.rpm
+ 1077  Jan/22 - 17:07:01 rpm -Uvh *
+ 1084  Jan/22 - 17:12:13 wget http://downloads.sourceforge.net/ffmpeg-php/ffmpeg-php-0.5.1.tbz2?modtime=1181869403&big_mirror=0
+ 1085  Jan/22 - 17:12:47 tar xjf ffmpeg-php-0.5.1.tbz2
+ 1087  Jan/22 - 17:13:00 cd ffmpeg-php-0.5.1
+ 1088  Jan/22 - 17:13:00 ls
+ 1089  Jan/22 - 17:13:04 less INSTALL
+ 1090  Jan/22 - 17:14:10 phpize
+ 1091  Jan/22 - 17:14:18 ./configure
+ 1092  Jan/22 - 17:14:25 make
+ 1093  Jan/22 - 17:14:32 make install
+ 1094  Jan/22 - 17:14:40 ls /usr/lib/php/modules/
+ 1096  Jan/22 - 17:15:16 cd /etc/php.d/
+ 1100  Jan/22 - 17:15:38 vi ffmpeg.ini
+ 1101  Jan/22 - 17:16:27 php -v
+ 1102  Jan/22 - 17:16:32 service httpd restart
+
+# now you need to complile freebdi from source for rhel5:
+
+# wget http://fribidi.org/download/fribidi-0.10.9.tar.gz
+# tar -xzvf fribidi-0.10.9.tar.gz
+# vi fribidi-0.10.9/fribidi.spec
+    * remove line that starts with "Serial" (line 25)
+# rm fribidi-0.10.9.tar.gz
+# tar -czvf fribidi-0.10.9.tar.gz fribidi-0.10.9/
+# rpmbuild -tb fribidi-0.10.9.tar.gz
+# rpm -ivh /usr/src/redhat/RPMS/x86_64/libfribidi0*.rpm
+  OR
+# rpm -ivh /usr/src/redhat/RPMS/i386/libfribidi0-*.rpm 

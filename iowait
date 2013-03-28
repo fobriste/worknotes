@@ -1,0 +1,11 @@
+service syslog stop
+
+echo 1 > /proc/sys/vm/block_dump
+
+-Then wait for data to collect in dmesg -
+
+echo 0 > /proc/sys/vm/block_dump
+
+service syslog start
+
+dmesg | gawk '/^[^( ]*\([0-9]*\): (READ|WRITE|dirtied)/{activity[$1]++} END {for (x in activity) print activity[x],x}' | sort -nr | head -n 10 

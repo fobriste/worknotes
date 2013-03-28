@@ -1,0 +1,2 @@
+#setup user for sftp usage only
+dwasinger03:x:509:510::/home/dwasinger03:/usr/libexec/openssh/sftp-server

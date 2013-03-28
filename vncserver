@@ -1,0 +1,4 @@
+up2date -i vncserver
+up2date -i xorg-x11
+set password : in /root/.vnc
+vncpasswd

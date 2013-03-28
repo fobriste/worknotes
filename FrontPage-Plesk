@@ -1,0 +1,5 @@
+Front page in plesk not working.
+
+Disable front page in plesk, go into the htdocs dir, move .htaccess, _private, and _vti.
+
+Enable front page in plesk again, then readd the frontpage user

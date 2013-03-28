@@ -1,0 +1,15 @@
+
+(12:41:58 PM) Jacob Walcik: <Directory /var/www/vhosts/bioslim.com/httpdocs/> 
+        php_admin_value open_basedir none 
+        Options +FollowSymLinks 
+        Action php-cgi /cgi-bin/php 
+        AddHandler php-cgi .php 
+</Directory> 
+<Directory /var/www/cgi-bin> 
+                Options +FollowSymLinks 
+</Directory>
+
+install --
+
+(01:04:05 PM) Jacob Walcik: ./configure --prefix=/usr/local --exec-prefix=/usr/local --bindir=/usr/local/bin --sbindir=/usr/local/sbin --sysconfdir=/usr/local/etc/ --datadir=/usr/local/share --libdir=/usr/local/lib --includedir=/usr/local/include --libexecdir=/usr/local/libexec --localstatedir=/usr/local/var --mandir=/usr/local/man --infodir=/usr/local/share/info --with-pear=/usr/local/share/pear --with-exec-dir=/usr/local/bin --with-config-file-path=/usr/local/etc --with-config-file-scan-dir=/usr/local/etc/php.d --with-bz2 --with-curl --with-freetype-dir=/usr --with-png-dir=/usr --enable-gd-native-ttf --without-gdbm --with-gettext --with-gmp --with-iconv --with-jpeg-dir=/usr --with-openssl --with-pspell --with-zlib --with-layout=GNU -enable-exif --enable-ftp --enable-magic-quotes --enable-sockets --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-wddx --with-kerberos --enable-ucd-snmp-hack --enable-shmop --enable-calendar --with-mime-magic=/etc/httpd/conf/magic --without-sqlite --with-libxml-dir=/usr --with-mhash --with-mcrypt --with-mysql --with-gd
+(01:39:18 PM) Jacob Walcik: in the cgi-bin for the site (or for the whole server if you want it to be available in all domains), you have to create a symbolic link to the "php" binary. i always call the link "php", but the link actually points to a binary in the php install tree called "php-cgi". if you use the regular "php" binary as your target, you'll just get internal server errors

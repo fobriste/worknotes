@@ -1,0 +1,2 @@
+iptables -t nat -A PREROUTING -p tcp -d [chosen ip] --dport 443 -j DNAT --to [chosen ip]:8443
+service iptables save 

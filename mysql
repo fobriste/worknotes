@@ -1,0 +1,63 @@
+*** flush privileges; after changing users and perms ***
+
+grant all on *.* to "username"@'localhost' identified by "password"; # change privdliges for username with *.* as "database.table"
+
+grant all on <database>.<table> to '<username>'@'ipaddress'; #add user
+
+delete from user where user='<username>' and host='%'; # remove user (% is globally)
+
+mysql dbname < dbname.sql #import to a database
+
+mysqldump -u <user> -p<password> dabasename > <destfile>.sql # dump database to file, see also http://clockwatchers.com/mysql_dump.html
+
+***creating a database manually***
+{
+  create database <databasename>; # create database
+	-or- mysqladmin create <database>
+
+  grant all on <table>.<database> to '<username>'@'<ipaddress' identified by'<password>'; # give privileges to database.
+
+  flush privileges;
+}
+
+# revert mysql password to old hash
+# to change passwords just replace PASSWORD with OLD_PASSWORD
+
+UPDATE mysql.user SET Password = OLD_PASSWORD('newpwd') WHERE Host = 'some_host' AND User = 'some_user';
+mysql> FLUSH PRIVILEGES;
+
+#Character encoding:
+What we discovered tonight to allow character set specifications to work correctly:
+
+Do NOT specify a default character set in:
+-- httpd.conf (or other conf files / .htaccess files)
+-- php.ini (or other php conf files)
+
+DO specify a character set in:
+-- PHP Header directive --OR--
+-- HTML META tag
+
+And in /etc/my.cnf:
+character-set-server=greek
+character-set-client=greek
+
+On a case-by-case basis, MySQL can be overridden in the connection string to specify utf8 like such in the connection setup portion of the PHP script:
+
+mysql_query("SET NAMES 'utf8'");
+mysql_query("SET CHARACTER_SET 'utf8'");
+
+#optimize tables
+
+MYSQL_AUTH="-uadmin -p`cat /etc/psa/.psa.shadow`"; for i in `mysql
+$MYSQL_AUTH -B -e "show databases"|grep -v Database`; do for j in `mysql
+$MYSQL_AUTH $i -B -e "show tables;"|grep -v Tables_`;do mysql $MYSQL_AUTH $i
+-e "optimize table $j";done;done;
+
+# rename files in loop
+ for i in `ls` ; do mv "$i" "${i/2010-07-07_01-05-39-/}" ; done
+
+# add drop databases to a bunch of mysql files, such as holland
+for i in `ls *.sql` ; do export DB=`echo $i| sed 's/.sql//'` ; echo -e " DROP DATABASE IF EXISTS $DB; \n CREATE DATABSE $DB; \n\n  " > "$DB"_withdrop.sql ; cat $i >> "$DB"_withdrop.sql ; done
+
+#split db dump  into tables and rename with tablename 
+csplit mysql.sql /'-- Table structure for table `'/ {*}; rm -f xx00; for i in $(ls xx*) ; do file=$(head -n1 $i | sed 's/^.*`\(.*\)`/\1/'); mv $i $file.sql ;done

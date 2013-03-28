@@ -1,0 +1,6 @@
+******** Reg key for RDesktop 
+(16:18:07) Ric Benavides: HKLM\SYSTEM\CurrentControlSet\Control\Terminal Services\Wds\rdpwd
+(16:18:14) Ric Benavides: set fenableprintrdr = 1
+
+
+

@@ -1,0 +1,198 @@
+VeriSign SSL Crapola
+------------------------------------
+
+# To generate the RSA Private Key:
+/usr/bin/openssl genrsa 1024 > /etc/httpd/conf/ssl.key/<year>-<domain>.key
+
+# To generate the CSR:
+/usr/bin/openssl req -new -key /etc/httpd/conf/ssl.key/<year>-<domain>.key -out /etc/httpd/conf/ssl.csr/<year>-<domain>.csr
+
+# To Enroll a new cert or renew:
+https://ispcenter.verisign.com/ispcenter
+teamC / R5supp0rtC
+
+Manage Products / Enroll for Products
+-> Global Server (128bit) / Secure Server (40bit)
+#to call support
+1-877-438-8776
+use option 7 and code 1153
+
+# This is the VeriSign root chain cert
+-----BEGIN CERTIFICATE-----
+MIIDgzCCAuygAwIBAgIQJUuKhThCzONY+MXdriJupDANBgkqhkiG9w0BAQUFADBf
+MQswCQYDVQQGEwJVUzEXMBUGA1UEChMOVmVyaVNpZ24sIEluYy4xNzA1BgNVBAsT
+LkNsYXNzIDMgUHVibGljIFByaW1hcnkgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkw
+HhcNOTcwNDE3MDAwMDAwWhcNMTExMDI0MjM1OTU5WjCBujEfMB0GA1UEChMWVmVy
+aVNpZ24gVHJ1c3QgTmV0d29yazEXMBUGA1UECxMOVmVyaVNpZ24sIEluYy4xMzAx
+BgNVBAsTKlZlcmlTaWduIEludGVybmF0aW9uYWwgU2VydmVyIENBIC0gQ2xhc3Mg
+MzFJMEcGA1UECxNAd3d3LnZlcmlzaWduLmNvbS9DUFMgSW5jb3JwLmJ5IFJlZi4g
+TElBQklMSVRZIExURC4oYyk5NyBWZXJpU2lnbjCBnzANBgkqhkiG9w0BAQEFAAOB
+jQAwgYkCgYEA2IKA6NYZAn0fhRg5JaJlK+G/1AXTvOY2O6rwTGxbtueqPHNFVbLx
+veqXQu2aNAoV1Klc9UAl3dkHwTKydWzEyruj/lYncUOqY/UwPpMo5frxCTvzt01O
+OfdcSVq4wR3Tsor+cDCVQsv+K1GLWjw6+SJPkLICp1OcTzTnqwSye28CAwEAAaOB
+4zCB4DAPBgNVHRMECDAGAQH/AgEAMEQGA1UdIAQ9MDswOQYLYIZIAYb4RQEHAQEw
+KjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL0NQUzA0BgNV
+HSUELTArBggrBgEFBQcDAQYIKwYBBQUHAwIGCWCGSAGG+EIEAQYKYIZIAYb4RQEI
+ATALBgNVHQ8EBAMCAQYwEQYJYIZIAYb4QgEBBAQDAgEGMDEGA1UdHwQqMCgwJqAk
+oCKGIGh0dHA6Ly9jcmwudmVyaXNpZ24uY29tL3BjYTMuY3JsMA0GCSqGSIb3DQEB
+BQUAA4GBAAgB7ORolANC8XPxI6I63unx2sZUxCM+hurPajozq+qcBBQHNgYL+Yhv
+1RPuKSvD5HKNRO3RrCAJLeH24RkFOLA9D59/+J4C3IYChmFOJl9en5IeDCSk9dBw
+E88mw0M9SR2egi5SX7w+xmYpAY5Okiy8RnUDgqxz6dl+C2fvVFIa
+-----END CERTIFICATE-----
+
+# comodo root chain
+-----BEGIN CERTIFICATE-----
+MIIEyDCCBDGgAwIBAgIEAgACmzANBgkqhkiG9w0BAQUFADBFMQswCQYDVQQGEwJV
+UzEYMBYGA1UEChMPR1RFIENvcnBvcmF0aW9uMRwwGgYDVQQDExNHVEUgQ3liZXJU
+cnVzdCBSb290MB4XDTAyMDgyNzE5MDcwMFoXDTA2MDIyMzIzNTkwMFowgdwxCzAJ
+BgNVBAYTAkdCMRcwFQYDVQQKEw5Db21vZG8gTGltaXRlZDEdMBsGA1UECxMUQ29t
+b2RvIFRydXN0IE5ldHdvcmsxRjBEBgNVBAsTPVRlcm1zIGFuZCBDb25kaXRpb25z
+IG9mIHVzZTogaHR0cDovL3d3dy5jb21vZG8ubmV0L3JlcG9zaXRvcnkxHzAdBgNV
+BAsTFihjKTIwMDIgQ29tb2RvIExpbWl0ZWQxLDAqBgNVBAMTI0NvbW9kbyBDbGFz
+cyAzIFNlY3VyaXR5IFNlcnZpY2VzIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEAsR5gZuBDBp4naC8CmceI34Xr22Xs1Elnei4fzdwVLNYerPKdRjpd
+A8A9BSxaGA1ZJUKjcsCtKNKtPDHiSwf7XpjrqDPWabJanuosSaYmLkzwzKtA0qre
+LE6Btbp7uFzQe71H9cAG0sDk10fbYkCvoRxRAxjbuNC7lMc8eeolZK4mGeE8Zkdn
+kp17Vas0wnVu2SeOnYzwHdprnIYEopC16p2Mz/s5Q6jwGC2e9xkQLJwv4dCx/9dZ
+xM1AMvnXgdtRHPJBUoFBsYO4yAn+mSJHgE+cy67gKNUcrHBHsCWroThCF2v6am6N
+X3n49ikDMKRuRtSFXapAmTh22x4BfeUMpQIDAQABo4IBpzCCAaMwRQYDVR0fBD4w
+PDA6oDigNoY0aHR0cDovL3d3dy5wdWJsaWMtdHJ1c3QuY29tL2NnaS1iaW4vQ1JM
+LzIwMDYvY2RwLmNybDAdBgNVHQ4EFgQU9lIiFxUTCANZvxiVn0i0uen++GYwgZIG
+A1UdIASBijCBhzBJBgoqhkiG+GMBAgEFMDswOQYIKwYBBQUHAgEWLWh0dHA6Ly93
+d3cucHVibGljLXRydXN0LmNvbS9DUFMvT21uaVJvb3QuaHRtbDA6BgwrBgEEAbIx
+AQIBAwEwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9D
+UDBYBgNVHSMEUTBPoUmkRzBFMQswCQYDVQQGEwJVUzEYMBYGA1UEChMPR1RFIENv
+cnBvcmF0aW9uMRwwGgYDVQQDExNHVEUgQ3liZXJUcnVzdCBSb290ggIBozArBgNV
+HRAEJDAigA8yMDAyMDgyNzE5MDczMVqBDzIwMDUwMjIzMjM1OTAwWjAOBgNVHQ8B
+Af8EBAMCAeYwDwYDVR0TBAgwBgEB/wIBADANBgkqhkiG9w0BAQUFAAOBgQC2p7B6
+cYvgurOBHjYyeoYY1vGrTTkIcQZaZ6BLAeUwQG2JtZ4VqrHH9ArGXA7pN96ol8fc
+zs1x+3QCB9xfFScIUwd21LkG6cJ3UB7KybDCRoGAAK1EqlzWINlVMr5WlvHqvaDj
+vA2AOurM+5pX7XilNj1W6tHndMo0w8+xUengDA==
+-----END CERTIFICATE-----
+
+# GTE cybertrust
+-----BEGIN CERTIFICATE-----
+MIIB+jCCAWMCAgGjMA0GCSqGSIb3DQEBBAUAMEUxCzAJBgNVBAYTAlVTMRgwFgYD
+VQQKEw9HVEUgQ29ycG9yYXRpb24xHDAaBgNVBAMTE0dURSBDeWJlclRydXN0IFJv
+b3QwHhcNOTYwMjIzMjMwMTAwWhcNMDYwMjIzMjM1OTAwWjBFMQswCQYDVQQGEwJV
+UzEYMBYGA1UEChMPR1RFIENvcnBvcmF0aW9uMRwwGgYDVQQDExNHVEUgQ3liZXJU
+cnVzdCBSb290MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC45k+625h8cXyv
+RLfTD0bZZOWTwUKOx7pJjTUteueLveUFMVnGsS8KDPufpz+iCWaEVh43KRuH6X4M
+ypqfpX/1FZSj1aJGgthoTNE3FQZor734sLPwKfWVWgkWYXcKIiXUT0Wqx73llt/5
+1KiOQswkwB6RJ0q1bQaAYznEol44AwIDAQABMA0GCSqGSIb3DQEBBAUAA4GBABKz
+dcZfHeFhVYAA1IFLezEPI2PnPfMD+fQ2qLvZ46WXTeorKeDWanOB5sCJo9Px4KWl
+IjeaY8JIILTbcuPI9tl8vrGvU9oUtCG41tWW4/5ODFlitppK+ULdjG+BqXH/9Apy
+bW1EDp3zdHSo1TRJ6V6e6bR64eVaH4QwnNOfpSXY
+-----END CERTIFICATE-----
+
+# Starfield Secure
+-----BEGIN CERTIFICATE-----
+MIIEQTCCA6qgAwIBAgICAQQwDQYJKoZIhvcNAQEFBQAwgbsxJDAiBgNVBAcTG1Zh
+bGlDZXJ0IFZhbGlkYXRpb24gTmV0d29yazEXMBUGA1UEChMOVmFsaUNlcnQsIElu
+Yy4xNTAzBgNVBAsTLFZhbGlDZXJ0IENsYXNzIDIgUG9saWN5IFZhbGlkYXRpb24g
+QXV0aG9yaXR5MSEwHwYDVQQDExhodHRwOi8vd3d3LnZhbGljZXJ0LmNvbS8xIDAe
+BgkqhkiG9w0BCQEWEWluZm9AdmFsaWNlcnQuY29tMB4XDTA0MDExNDIxMDUyMVoX
+DTI0MDEwOTIxMDUyMVowgewxCzAJBgNVBAYTAlVTMRAwDgYDVQQIEwdBcml6b25h
+MRMwEQYDVQQHEwpTY290dHNkYWxlMSUwIwYDVQQKExxTdGFyZmllbGQgVGVjaG5v
+bG9naWVzLCBJbmMuMTAwLgYDVQQLEydodHRwOi8vd3d3LnN0YXJmaWVsZHRlY2gu
+Y29tL3JlcG9zaXRvcnkxMTAvBgNVBAMTKFN0YXJmaWVsZCBTZWN1cmUgQ2VydGlm
+aWNhdGlvbiBBdXRob3JpdHkxKjAoBgkqhkiG9w0BCQEWG3ByYWN0aWNlc0BzdGFy
+ZmllbGR0ZWNoLmNvbTCBnTANBgkqhkiG9w0BAQEFAAOBiwAwgYcCgYEA2xFDa9zR
+aXhZSehudBQIdBFsfrcqqCLYQjx6z59QskaupmcaIyK+D7M0+6yskKpbKMJw9raK
+gCrgm5xS4JGocqAW4cROfREJs5651POyUMRtSAi9vCqXDG2jimo8ms9KNNwe3upa
+JsChooKpSvuGIhKQOrKC1JKRn6lFn8Ok2/sCAQOjggEhMIIBHTAMBgNVHRMEBTAD
+AQH/MAsGA1UdDwQEAwIBBjBKBgNVHR8EQzBBMD+gPaA7hjlodHRwOi8vY2VydGlm
+aWNhdGVzLnN0YXJmaWVsZHRlY2guY29tL3JlcG9zaXRvcnkvcm9vdC5jcmwwTwYD
+VR0gBEgwRjBEBgtghkgBhvhFAQcXAzA1MDMGCCsGAQUFBwIBFidodHRwOi8vd3d3
+LnN0YXJmaWVsZHRlY2guY29tL3JlcG9zaXRvcnkwOQYIKwYBBQUHAQEELTArMCkG
+CCsGAQUFBzABhh1odHRwOi8vb2NzcC5zdGFyZmllbGR0ZWNoLmNvbTAdBgNVHQ4E
+FgQUrFXet+oT6/yYaOJTYB7xJT6M7ucwCQYDVR0jBAIwADANBgkqhkiG9w0BAQUF
+AAOBgQB+HJi+rQONJYXufJCIIiv+J/RCsux/tfxyaAWkfZHvKNF9IDk7eQg3aBhS
+1Y8D0olPHhHR6aV0S/xfZ2WEcYR4WbfWydfXkzXmE6uUPI6TQImMwNfy5wdS0XCP
+mIzroG3RNlOQoI8WMB7ew79/RqWVKvnI3jvbd/TyMrEzYaIwNQ==
+-----END CERTIFICATE-----
+
+#this worked for godaddy on 20070427
+-----BEGIN CERTIFICATE-----
+MIIEnDCCBAWgAwIBAgIQdTN9mrDhIzuuLX3kRpFi1DANBgkqhkiG9w0BAQUFADBf
+MQswCQYDVQQGEwJVUzEXMBUGA1UEChMOVmVyaVNpZ24sIEluYy4xNzA1BgNVBAsT
+LkNsYXNzIDMgUHVibGljIFByaW1hcnkgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkw
+HhcNMDUwMTE5MDAwMDAwWhcNMTUwMTE4MjM1OTU5WjCBsDELMAkGA1UEBhMCVVMx
+FzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZWZXJpU2lnbiBUcnVz
+dCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBvZiB1c2UgYXQgaHR0cHM6Ly93d3cu
+dmVyaXNpZ24uY29tL3JwYSAoYykwNTEqMCgGA1UEAxMhVmVyaVNpZ24gQ2xhc3Mg
+MyBTZWN1cmUgU2VydmVyIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAlcMhEo5AxQ0BX3ZeZpTZcyxYGSK4yfx6OZAqd3J8HT732FXjr0LLhzAC3Fus
+cOa4RLQrNeuT0hcFfstG1lxToDJRnXRkWPkMmgDqXkRJZHL0zRDihQr5NO6ziGap
+paRa0A6Yf1gNK1K7hql+LvqySHyN2y1fAXWijQY7i7RhB8m+Ipn4G9G1V2YETTX0
+kXGWtZkIJZuXyDrzILHdnpgMSmO3ps6wAc74k2rzDG6fsemEe4GYQeaB3D0s57Rr
+4578CBbXs9W5ZhKZfG1xyE2+xw/j+zet1XWHIWuG0EQUWlR5OZZpVsm5Mc2JYVjh
+2XYFBa33uQKvp/1HkaIiNFox0QIDAQABo4IBgTCCAX0wEgYDVR0TAQH/BAgwBgEB
+/wIBADBEBgNVHSAEPTA7MDkGC2CGSAGG+EUBBxcDMCowKAYIKwYBBQUHAgEWHGh0
+dHBzOi8vd3d3LnZlcmlzaWduLmNvbS9ycGEwMQYDVR0fBCowKDAmoCSgIoYgaHR0
+cDovL2NybC52ZXJpc2lnbi5jb20vcGNhMy5jcmwwDgYDVR0PAQH/BAQDAgEGMBEG
+CWCGSAGG+EIBAQQEAwIBBjApBgNVHREEIjAgpB4wHDEaMBgGA1UEAxMRQ2xhc3Mz
+Q0EyMDQ4LTEtNDUwHQYDVR0OBBYEFG/sr6DdiqTv9SoQZy0/VYK81+8lMIGABgNV
+HSMEeTB3oWOkYTBfMQswCQYDVQQGEwJVUzEXMBUGA1UEChMOVmVyaVNpZ24sIElu
+Yy4xNzA1BgNVBAsTLkNsYXNzIDMgUHVibGljIFByaW1hcnkgQ2VydGlmaWNhdGlv
+biBBdXRob3JpdHmCEHC65B0Q2Sk0tjjKewPMur8wDQYJKoZIhvcNAQEFBQADgYEA
+w34IRl2RNs9n3Nenr6+4IsOLBHTTsWC85v63RBKBWzFzFGNWxnIu0RoDQ1w4ClBK
+Tc3athmo9JkNr+P32PF1KGX2av6b9L1S2T/L2hbLpZ4ujmZSeD0m+v6UNohKlV4q
+TBnvbvqCPy0D79YoszcYz0KyNCFkR9MgazpM3OYDkAw=
+-----END CERTIFICATE-----
+
+
+
+# apache needs:
+SSLEngine on
+SSLCertificateFile /etc/httpd/conf/ssl.crt/<domain>.crt
+SSLCertificateKeyFile /etc/httpd/conf/ssl.key/<domain>.key
+# optional 
+SSLCACertificateFile /etc/httpd/conf/ssl.crt/verisign.crt
+
+# To generate a self-signed cert
+openssl req -new -nodes -out req.pem -keyout key.pem
+openssl rsa -in key.pem -out new.key.pem
+openssl x509 -in req.pem -out ca-cert -req \
+-signkey new.key.pem -days 999
+
+# test out the key/cert
+openssl rsa -noout -text -in <name>.key
+openssl x509 -noout -text -in <name>.crt
+
+# VERISIGN CONTACT NUMBERS
+Sales Account Manager:
+Philip Antoniadis (650) 426-3596 or pantoniadis@verisign.com
+
+Partner Relations:
+for SSL Certificates
+Dan Neumann     1.888.883.0025 (PIN: 15975197) 650.426.3627       dneumann@verisign.com
+
+for Payment Services
+Sia Pappanastos (650) 426-3468 or spappanastos@verisign.com
+
+Tech Support:
+#Jason Underwood (650) 426-3592 or junderwood@verisign.com
+#Butch Harris (650) 426-3323 or bharris@verisign.com
+Jack Earl (650) 426-3337
+
+Jack Earl is your main contact, you can reach him at 1-650-426-3337, jearl@verisign.com 
+Erin: He is out this week, so if another contact for you is Tony Palmares, 1-650-426-3655, tpalmares@verisign.com
+
+webhost-support@verisign.com
+
+
+https://digitalid.verisign.com/services/server/search.html
+
+Online chat:
+http://www.verisign.com/products-services/security-services/ssl/Check_Order_Status/order-status.html
+(chat with us)
+
+To Revoke a site:
+https://digitalid.verisign.com/services/server/search.html
+
+# to remove ssl passphrase on the key
+openssl rsa -in OLD.key -out NEW.key2
+
+# view cert info remotely
+openssl s_client -host hostname -port 443

@@ -1,0 +1,11 @@
+
+In /var/www/vhosts/harcuk.com/conf/vhost.conf:
+
+<Directory /var/www/vhosts/harcuk.com/httpdocs>
+php_flag register_globals on
+</Directory>
+
+and then I ran the following commands to incorporate the new changes:
+
+[root@server2 ~]# /usr/local/psa/admin/sbin/websrvmng -av
+[root@server2 ~]# service httpd reload

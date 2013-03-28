@@ -1,0 +1,25 @@
+qmHandle - manipulates the queue
+
+/var/qmail/bin/qmail-qstat - queue status
+
+/var/qmail/bin/qmail-qread - reads queue
+
+qmHandle -s ## show queue both remove/local
+
+qmHandle -R ## show subjects in the remote queue
+
+qmHandle -L ## show subjects in the local queue
+
+qmHandle -R | grep "failure notice" | wc -l ## shows the ammount of quoted subject in the remote queue
+
+qmHandle -S"failure notice" ## remove all pieces of mail with the quoted subject (no space between S)
+
+./var/qmail/mailnames/clubztutoring.com/pmagee/.qmail ## qmail mailbox forwards 
+
+/usr/local/psa/bin/mail.sh -i test@sdfd.com ## prints user info incul passwd
+
+grep -lr "marygrace@abuyersrealty.com" /var/qmail/queue/mess/* | cut -d \/ -f 7 | sed 's/^/-d/' > /tmp/temp | qmHandle `cat /tmp/temp` && rm -rf /tmp/temp ## deletes email of user in queue
+
+qmHandle -R | grep -a Subject | sort | uniq -c | sort -n | tail -15 ## shows top subjects of mail in queue
+
+grep "SMTP user" /var/log/messages | awk {'print $9 $10 $11'} | sort | uniq -c | sort -n | tac 

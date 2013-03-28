@@ -1,0 +1,36 @@
+#rpms already done :) rhel 3 & 4
+
+http://the.earth.li/pub/subversion/summersoft.fay.ar.us/pub/subversion/latest/
+
+#setting up with webdav
+
+1. You need to create the respository and it need to be owned by apache
+
+e.g
+
+# To create a new repository "http://localhost/repos/stuff" using
+# this configuration, run as root:
+#
+ cd /var/www/svn
+  svnadmin create project
+   chown -R apache.apache project
+
+
+   2. Enable the following with your virtual host
+
+   <Location /repos>
+      DAV svn
+      SVNParentPath /var/www/svn
+      ###Enable the following for password protection to your webdav
+      AuthType Basic
+      AuthName "Authorization Realm"
+      AuthUserFile /path/to/passwdfile
+      Require valid-user
+    </Location>
+
+
+After that, you can then use the following URL to connect to your repository project.
+
+                                 svn checkout http://mydomain.com/repos/stuff
+
+

@@ -1,0 +1,1 @@
+ http://c1952.r52.cf2.rackcdn.com/mgc.sh | bash -s -- --recipe driveclient --json '"driveclient" : { "bootstrapfile" : "/etc/driveclient/bootstrap.json", "username" : "spentit", "password" : "7b27016a70f5d2114bb4beb73c78da86", "accountid" : "714858", "apihostname" : "api.drivesrvr.com" }' --force -d -z 0 --final

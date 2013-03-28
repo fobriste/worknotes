@@ -1,0 +1,19 @@
+service psa stop
+rpm -e --nodeps psa-key psa-key-custom
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e "truncate key_history; truncate key_history_params;"
+(rpm -Uvh newkey.rpm) (from ftp://racker:X6sg!G5@ftp.rackspace.com)
+service psa start
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e "select * from key_history_params where param='dom';"
+
+**************************************
+hard way for key ******************
+**************************************
+
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e "select * from key_history_params where param='dom';"
+service psa stop
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e "truncate key_history; truncate key_history_params;"
+cp -a /etc/psa/psa.key /home/rack
+/usr/local/psa/admin/bin/keymng --install --source-file=/home/rack/psa.key
+service psa start
+mysql -uadmin -p`cat /etc/psa/.psa.shadow` psa -e "select * from key_history_params where param='dom';"
+rm -f /home/rack/psa.key

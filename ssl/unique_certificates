@@ -1,0 +1,5 @@
+#works great for server's not behind a filewall
+
+for i in `ip addr | awk '/inet/ && !/127/ {print $2}' | sed 's/\/.*$//' `  ; do  echo quit | openssl s_client -connect $i:443 2>&1 | grep ubject  ; done | sort | uniq
+
+# just add wc-l to the end and it'll give you a number

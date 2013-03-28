@@ -1,0 +1,7 @@
+curl -s matx.tv/ip/mail >> /home/rack/blchk.20120312 &
+zgrep pass /var/log/psa-horde/psa-horde.log*
+lsof -nP -p `lsof -i tcp:80 | awk '/perl/ {print $2}'` | egrep 'cwd|IPv4'
+find /tmp/ /dev/shm/ -uid 48 ! -path '*.horde*'
+/usr/local/psa/admin/bin/mailqueuemng -s
+
+http://downloads.sourceforge.net/project/qmhandle/qmhandle-1.3/qmhandle-1.3.2/qmhandle-1.3.2.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fqmhandle%2F&ts=1328358943&use_mirror=superb-sea2

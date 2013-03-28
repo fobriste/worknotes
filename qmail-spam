@@ -1,0 +1,22 @@
+Spam comes from several sources: Whitelisted IP, scripts, processes, auth'd users, apache php or cgi, or users
+
+The first place to check is /var/qmail/bin/qmail-qstat to determine queue size. over 1000 is suspicious.
+Then /var/qmail/bin/qmail-qread will dump the queue.
+look for a pattern, find one then look at a message. Get the message id from the qmail-qread and you can find the file or qmHandle -R<messageID>.
+
+Get ident info from the mail, and see where it's from. In the case I wrote the howto it was a whitelisted ip. You view the whitelisted ip's via the plesk control panel in mail or grom the smtp_poplocks table.
+
+mysql -uadmin -p`cat /etc/psa/.psa.shadow ` psa
+mysql> select * from smtp_poplocks;
+
+remove the ip's from the whitelist and put them in the ticket so the customer will have them for reference. Then remove the badmail. Here's how:
+
+/var/qmail/bin/qmail-qread | grep \.hinet\.net | grep GMT | awk '{print $6}' | sed s/^#/-d/ > ~rack/badmail
+
+qmHandle `cat ~rack/badmail`
+
+### new stuff - 
+
+qmHandle -L | awk '/Subject/ {print $2}' | sort | uniq -c | sort -n #prints subjects by frequency
+
+

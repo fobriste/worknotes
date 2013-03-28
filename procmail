@@ -1,0 +1,21 @@
+# run mail throught spamassassin
+#only if you want a log
+LOGFILE=/var/log/procmail.log
+DROPPRIVS=yes
+# only for maildir
+DEFAULT=$HOME/Maildir/
+
+# runs through spamassassin
+:0fw
+* < 256000
+| /usr/bin/spamc
+
+# Fix dropped F's in the maildir headers
+
+:0
+* ^^rom[ ]
+{
+
+  :0 fhw
+  | sed -e '1s/^/F/'
+}

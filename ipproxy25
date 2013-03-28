@@ -1,0 +1,3 @@
+iptables -t nat -A PREROUTING --dst 192.168.1.75 -p tcp --dport 25 -j DNAT --to-destination 72.32.64.76:25
+iptables -t nat -A POSTROUTING -p tcp --dst 72.32.64.76 --dport 25 -j SNAT --to-source 192.168.1.75
+iptables -t nat -A OUTPUT --dst 192.168.1.75 -p tcp --dport 25 -j DNAT --to-destination 72.32.64.76:25

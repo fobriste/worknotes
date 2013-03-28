@@ -1,0 +1,121 @@
+Disable Trace and Track
+
+Backup Vhosts:
+
+mkdir /home/rack/<ticketnumber>
+find /var/www/vhosts -name 'vhost*.conf' -exec tar -rf /home/rack/<ticketnumber>/vhosts`date -u +%F`Z.tar {} \;
+cp /etc/httpd/conf/httpd.conf /home/rack/<ticketnumber>
+cp /etc/httpd/conf.d/ssl.conf /home/rack/<ticketnumber>
+
+create templates:
+
+mkdir /var/www/vhosts/.skel/0/conf
+cat >> /var/www/vhosts/.skel/0/conf/vhost.conf
+# disabling trace and track per ticket <ticketnumber>
+ <IfModule mod_rewrite.c>            
+    RewriteEngine on                 
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+ </IfModule>
+[CTRL-D]
+cat >> /var/www/vhosts/.skel/0/conf/vhost_ssl.conf
+# disabling trace and track per ticket <ticketnumber>
+ <IfModule mod_rewrite.c>            
+    RewriteEngine on                 
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+ </IfModule>
+[CTRL-D]
+
+Edit Vhosts:
+
+find /var/www/vhosts -name 'vhost*.conf' -exec cat /var/www/vhosts/.skel/0/conf/vhost.conf >> {} \;
+
+Test:
+
+/usr/local/psa/admin/bin/websrvmng -aw
+httpd -t
+
+Add rewrite to control panel:
+
+/usr/local/psa/admin/conf/httpsd.custom.include:
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+</IfModule>
+
+Reload everything:
+
+/etc/init.d/httpd reload
+/etc/init.d/psa restart
+
+Test the sites then test trace/track:
+
+Telnet <domainname> 80
+Trace / HTTP/1.0
+Host: <domainname.com>
+a:b
+b: c
+
+You should see:
+
+HTTP/1.1 403 Forbidden
+Date: Tue, 10 Feb 2009 18:16:35 GMT
+Server: Apache/2.2.3 (Red Hat)
+Content-Length: 276
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+FileETag MTime Size
+
+UserDir Disable
+
+<IfModule mod_ssl.c>
+SSLProtocol -all +SSLv3 +TLSv1 
+SSLCipherSuite ALL:-ADH:!kEDH:!EXPORT56:RC4+RSA:+HIGH:!MEDIUM:-LOW:-SSLv2:-EXP
+</IfModule>
+
+Disabling icmp timestamps is the following:
+
+iptables -I INPUT -m icmp -p icmp --icmp-type 13 -j DROP
+
+# Dovecot - in dovecot.conf
+ssl_cipher_list = ALL:-ADH:!kEDH:!EXPORT56:RC4+RSA:+HIGH:!MEDIUM:-LOW:-SSLv2:-EXP
+
+#Postfix - in main.cf
+smtpd_tls_cipherlist = HIGH:MEDIUM:+TLSv1:!SSLv2:+SSLv3
+smtp_tls_cipherlist = HIGH:MEDIUM:+TLSv1:!SSLv2:+SSLv3
+
+# qmail 
+
+echo 'ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:!SSLv2:RC4+RSA:+HIGH:-MEDIUM' > \ 
+/var/qmail/control/tlsserverciphers
+
+and 
+ 
+/var/qmail/control/tlsclientciphers
+# courier-imap
+
+
+/etc/courier-imap/imapd-ssl and /etc/courier-imap/pop3d-ssl:
+
+TLS_CIPHER_LIST="HIGH:!MEDIUM:!SSLv2:!LOW:!EXP:!aNULL:@STRENGTH"
+
+# disable .svn access
+RedirectMatch 404 /\\.svn(/.*|$)
+
+#Webmin
+In Webmin go to Webmin -> Webmin Configuration -> SSL Encryption
+Enter the following into the Allowed SSL Ciphers field
+ALL:!ADH:!LOW:!SSLv2:!EXP:+HIGH
+
+#FOR THE BEAST
+SSLProtocol -ALL +SSLv3 +TLSv1
+SSLHonorCipherOrder On
+SSLCipherSuite RC4-SHA:HIGH:!ADH
+SSLInsecureRenegotiation off
+
+# pull cves out of pdf
+1. pdftotext
+2. grep CVE-[0-9]* asvReportPdf\ -10-.txt|egrep -o "CVE-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]" | sort | uniq

@@ -1,0 +1,1 @@
+tcpdump -l -s 0 -e -i eth0 -w - port 25 | strings

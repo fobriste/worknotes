@@ -1,0 +1,14 @@
+# here's a nifty one that limits by ip addresses
+
+Order Deny,Allow
+Deny from all
+Allow from 221.135. 124.7. 24.7.150.240 12.33.11.1 65.91.31.66 209.33.85.115 24.23.13.40 24.10.120.225 24.10.78.13 76.20.24.52 24.206.188.48 209.33.84.171 71.197.106.161 209.33.85.46 24.23.13.156 221.134.46.62 24.206.154.171 24.206.154.171 24.2.58.245 24.206.154.171 221.135.210.77 221.134.222.239 209.33.84.232 221.134.222.136 210.214.29.56 24.206.176.11
+AuthUserFile /var/www/vhosts/14dailyplus.com/httpdocs/admin/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Password Protected Area"
+AuthType Basic
+
+<limit GET POST>
+require valid-user
+</limit>
+

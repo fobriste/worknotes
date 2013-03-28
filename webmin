@@ -1,0 +1,2 @@
+#Regenerate webmin certificate
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -keyout /etc/webmin/miniserv.pem  -out /etc/webmin/miniserv.pem -subj '/C=US/ST=TX/L=Webmin/O=Rackspace/OU=../CN=localhost/emailAddress=root@localhost'
